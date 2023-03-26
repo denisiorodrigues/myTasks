@@ -23,7 +23,7 @@ export const routes = [
       const { name, done } = req.body;
 
       const task = {
-        Id: randomUUID(),
+        id: randomUUID(),
         name,
         done,
       };
@@ -34,6 +34,23 @@ export const routes = [
         .setHeader("Conttnt-Type", "application/json")
         .writeHead(201)
         .end(JSON.stringify(task));
+    },
+  },
+  {
+    method: "PUT",
+    path: buildRoutesPath("/tasks/:id"),
+    handler: (req, res) => {
+      const { id } = req.params;
+      const { name, done } = req.body;
+
+      const task = {
+        name,
+        done,
+      };
+
+      database.update("tasks", id, task);
+
+      return res.writeHead(204).end();
     },
   },
   {

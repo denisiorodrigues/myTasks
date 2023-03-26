@@ -40,6 +40,7 @@ export const routes = [
     method: "DELETE",
     path: buildRoutesPath("/tasks/:id"),
     handler: (req, res) => {
+      console.log(req.params);
       return res.end();
     },
   },

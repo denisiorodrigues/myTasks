@@ -27,12 +27,20 @@ export class Database {
     if (search != null) {
       data = data.filter((row) => {
         return Object.entries(search).some(([key, value]) => {
-          return row[key].includes(value);
+          return row[key].toLowerCase().includes(value.toLowerCase());
         });
       });
     }
 
     return data;
+  }
+
+  find(table, id) {
+    const rowIndex = this.#database[table].findIndex((row) => row.id === id);
+    if (rowIndex > -1) {
+      return this.#database[table][rowIndex];
+    }
+    return {};
   }
 
   insert(table, data) {

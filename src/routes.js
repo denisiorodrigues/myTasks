@@ -1,3 +1,4 @@
+import { timeEnd } from "node:console";
 import { randomUUID } from "node:crypto";
 import { Database } from "./database.js";
 import { buildRoutesPath } from "./utils/build-routes-path.js";
@@ -29,12 +30,15 @@ export const routes = [
     method: "POST",
     path: buildRoutesPath("/tasks"),
     handler: (req, res) => {
-      const { title, done } = req.body;
+      const { title, description } = req.body;
 
       const task = {
         id: randomUUID(),
         title,
-        done,
+        description,
+        completed_at: null,
+        created_at: new Date(),
+        updated_at: null,
       };
 
       database.insert("tasks", task);
@@ -50,12 +54,26 @@ export const routes = [
     path: buildRoutesPath("/tasks/:id"),
     handler: (req, res) => {
       const { id } = req.params;
-      const { name, done } = req.body;
+      const { title, description } = req.body;
 
-      const task = {
-        name,
-        done,
-      };
+      let task = database.find("tasks", id);
+      task.title = title;
+      task.description = description;
+      task.updated_at = new Date();
+
+      database.update("tasks", id, task);
+
+      return res.writeHead(204).end();
+    },
+  },
+  {
+    method: "PATCH",
+    path: buildRoutesPath("/tasks/:id/complete"),
+    handler: (req, res) => {
+      const { id } = req.params;
+
+      let task = database.find("tasks", id);
+      task.completed_at = new Date();
 
       database.update("tasks", id, task);
 

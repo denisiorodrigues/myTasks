@@ -1,1 +1,19 @@
-{"tasks":[{"id":"fa713648-520a-45c4-91d7-523498820e61","name":"Fazer compras","done":false},{"id":"e268ff19-d217-405c-bb9a-f7482c9d67a0","name":"Fazer compras","done":false},{"id":"3c3bcdd2-f710-4cc0-a727-910f9def1e4d","name":"Comprar 3 pães","done":true}]}
+{
+  "tasks": [
+    {
+      "id": "b1bf08a6-04e0-4ed3-a298-fb1ee6a2f279",
+      "title": "Fazer compras",
+      "done": false
+    },
+    {
+      "id": "7530b09a-b40a-41a4-8c0d-e08436acdddf",
+      "title": "1 - Fazer compras",
+      "done": false
+    },
+    {
+      "id": "d2d38096-adb3-408b-a6d3-3809345d267d",
+      "title": "2 - Fazer compras",
+      "done": false
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { captureRejectionSymbol } from "node:events";
 import { readFile } from "node:fs";
 import fs from "node:fs/promises";
 
@@ -20,8 +21,17 @@ export class Database {
     fs.writeFile(databasePath, JSON.stringify(this.#database));
   }
 
-  select(table) {
-    const data = this.#database[table] ?? [];
+  select(table, search) {
+    let data = this.#database[table] ?? [];
+
+    if (search != null) {
+      data = data.filter((row) => {
+        return Object.entries(search).some(([key, value]) => {
+          return row[key].includes(value);
+        });
+      });
+    }
+
     return data;
   }
 

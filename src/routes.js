@@ -9,7 +9,16 @@ export const routes = [
     method: "GET",
     path: buildRoutesPath("/tasks"),
     handler: (req, res) => {
-      const tasks = database.select("tasks");
+      const { search } = req.query;
+
+      const tasks = database.select(
+        "tasks",
+        search
+          ? {
+              title: search,
+            }
+          : null
+      );
 
       return res
         .setHeader("Content-Type", "application/json")
@@ -20,11 +29,11 @@ export const routes = [
     method: "POST",
     path: buildRoutesPath("/tasks"),
     handler: (req, res) => {
-      const { name, done } = req.body;
+      const { title, done } = req.body;
 
       const task = {
         id: randomUUID(),
-        name,
+        title,
         done,
       };
 

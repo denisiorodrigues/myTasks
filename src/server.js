@@ -1,12 +1,15 @@
 import http from "node:http";
+import { Database } from "./database.js";
 
-const tasks = [];
+const database = new Database();
 
 const server = http.createServer((req, res) => {
   const { method, url } = req;
 
   if (method === "GET" && url === "/tasks") {
-    res
+    const tasks = database.select("tasks");
+
+    return res
       .setHeader("Content-Type", "application/json")
       .end(JSON.stringify(tasks));
   }
@@ -18,15 +21,15 @@ const server = http.createServer((req, res) => {
       email: "denisio@example.com",
     };
 
-    tasks.push(task);
+    database.insert("tasks", task);
 
-    res
-      .setHeader("Conttnt-type", "application/json")
+    return res
+      .setHeader("Conttnt-Type", "application/json")
       .writeHead(201)
       .end(JSON.stringify(task));
   }
 
-  res.writeHead(404).end();
+  return res.writeHead(404).end();
 });
 
 server.listen(5000);

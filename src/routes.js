@@ -65,6 +65,13 @@ export const routes = [
       const { title, description } = req.body;
 
       let task = database.find("tasks", id);
+
+      console.log("PUT", task);
+
+      if (!task) {
+        return res.writeHead(404).end("Task not found by Id " + id);
+      }
+
       task.title = title;
       task.description = description;
       task.updated_at = new Date();
@@ -81,6 +88,11 @@ export const routes = [
       const { id } = req.params;
 
       let task = database.find("tasks", id);
+
+      if (!task) {
+        return res.writeHead(404).end("Task not found by Id " + id);
+      }
+
       task.completed_at = new Date();
 
       database.update("tasks", id, task);
@@ -93,6 +105,10 @@ export const routes = [
     path: buildRoutesPath("/tasks/:id"),
     handler: (req, res) => {
       const { id } = req.params;
+
+      if (!task) {
+        return res.writeHead(404).end("Task not found by Id " + id);
+      }
 
       database.delete("tasks", id);
 

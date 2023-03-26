@@ -40,7 +40,8 @@ export class Database {
     if (rowIndex > -1) {
       return this.#database[table][rowIndex];
     }
-    return {};
+
+    return null;
   }
 
   insert(table, data) {

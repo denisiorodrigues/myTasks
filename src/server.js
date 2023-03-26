@@ -1,11 +1,14 @@
 import http from "node:http";
+import { randomUUID } from "node:crypto";
 import { Database } from "./database.js";
+import { json } from "./middlewares/json.js";
 
 const database = new Database();
 
-const server = http.createServer((req, res) => {
-  const { method, url } = req;
+const server = http.createServer(async (req, res) => {
+  await json(req, res);
 
+  const { method, url } = req;
   if (method === "GET" && url === "/tasks") {
     const tasks = database.select("tasks");
 
@@ -15,10 +18,14 @@ const server = http.createServer((req, res) => {
   }
 
   if (method === "POST" && url === "/tasks") {
+    console.log(req.body);
+
+    const { name, done } = req.body;
+
     const task = {
-      Id: 1,
-      name: "Denisio",
-      email: "denisio@example.com",
+      Id: randomUUID(),
+      name,
+      done,
     };
 
     database.insert("tasks", task);
